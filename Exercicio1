@@ -1,0 +1,16 @@
+#import <stdio.h>
+
+int valor (n){
+int i=0;
+for(i=1, i<=n, i++)
+x = n * i;
+printf("Taboada de %d", n);
+prinf(""%d, i" x %d", n")
+
+return X;
+
+}
+
+int main (){
+int valor();
+}
