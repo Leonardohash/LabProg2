@@ -1,0 +1,89 @@
+#include <stdio.h>
+
+#define TAM_MAX_VET 100
+
+// Função para ver se existem valores iguais
+int pertence(int elemento, int vetor[], int tamVet) {
+    int inicio = 0;
+    int fim = tamVet - 1;
+
+    while (inicio <= fim) {
+        int meio = (inicio + fim) / 2;
+        
+        if (vetor[meio] == elemento) {
+            return 1;  // O elemento foi encontrado
+        } else if (vetor[meio] < elemento) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+    return 0;  // O elemento não foi encontrado
+}
+
+// Função que une dois vetores ordenados v1 e v2 em v3 sem elementos repetidos
+int uniaoConjuntosOrdenados(int v1[], int tamV1, int v2[], int tamV2, int v3[]) {
+    int i = 0, j = 0;
+    int tamV3 = 0;  // Inicializa o tamanho de v3
+    
+    // Visualiza v1 e v2 e compara com v3
+    while (i < tamV1 && j < tamV2) {
+        if (v1[i] < v2[j]) {
+            if (!pertence(v1[i], v3, tamV3)) {
+                v3[tamV3] = v1[i];
+                tamV3++;
+            }
+            i++;
+        } else if (v1[i] > v2[j]) {
+            if (!pertence(v2[j], v3, tamV3)) {
+                v3[tamV3] = v2[j];
+                tamV3++;
+            }
+            j++;
+        } else {  // v1[i] == v2[j]
+            if (!pertence(v1[i], v3, tamV3)) {
+                v3[tamV3] = v1[i];
+                tamV3++;
+            }
+            i++;
+            j++;
+        }
+    }
+    
+    // Adiciona elementos que sobrarem de V1 caso necessário.
+    while (i < tamV1) {
+        if (!pertence(v1[i], v3, tamV3)) {
+            v3[tamV3] = v1[i];
+            tamV3++;
+        }
+        i++;
+    }
+
+    // Adiciona valores caso precise em v2
+    while (j < tamV2) {
+        if (!pertence(v2[j], v3, tamV3)) {
+            v3[tamV3] = v2[j];
+            tamV3++;
+        }
+        j++;
+    }
+    
+    return tamV3;  // Retorna o tamanho final de v3
+}
+
+int main() {
+    int v1[] = {5, 8, 9, 15, 25, 36, 83, 91, 100};
+    int v2[] = {2, 4, 8, 10, 16, 25, 45, 56, 83, 90, 100};
+    
+    int v3[2 * TAM_MAX_VET];  // Vetor para armazenar a união
+    int tamV3 = uniaoConjuntosOrdenados(v1, 9, v2, 11, v3);  // Recebe o tamanho de v3
+
+    // Exibe o vetor 3
+    printf("Vetor v3 (união ordenada sem duplicatas):\n");
+    for (int i = 0; i < tamV3; i++) {
+        printf("%d ", v3[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
